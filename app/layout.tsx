@@ -5,72 +5,70 @@ import { Metadata } from "next";
 import { Analytics } from "./components/analytics";
 
 export const metadata: Metadata = {
-  title: {
-    default: "friezer.eu",
-    template: "%s | friezer.eu",
-  },
-  description: "A young boy passionate by computers science.",
-  openGraph: {
-    title: "friezer.eu",
-    description:
-      "A young boy passionate by computers science.",
-    url: "https://friezer.eu",
-    siteName: "friezer.eu",
-    images: [
-      {
-        url: "https://friezer.eu/og.png",
-        width: 1920,
-        height: 1080,
-      },
-    ],
-    locale: "en-US",
-    type: "website",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  twitter: {
-    title: "Friezer",
-    card: "summary_large_image",
-  },
-  icons: {
-    shortcut: "/favicon.png",
-  },
+	title: {
+		default: "friezer.eu",
+		template: "%s | friezer.eu",
+	},
+	description: "A young boy passionate by computers science.",
+	openGraph: {
+		title: "friezer.eu",
+		description: "A young boy passionate by computers science.",
+		url: "https://friezer.eu",
+		siteName: "friezer.eu",
+		images: [
+			{
+				url: "https://friezer.eu/og.png",
+				width: 1920,
+				height: 1080,
+			},
+		],
+		locale: "en-US",
+		type: "website",
+	},
+	robots: {
+		index: true,
+		follow: true,
+		googleBot: {
+			index: true,
+			follow: true,
+			"max-video-preview": -1,
+			"max-image-preview": "large",
+			"max-snippet": -1,
+		},
+	},
+	twitter: {
+		title: "Friezer",
+		card: "summary_large_image",
+	},
+	icons: {
+		shortcut: "/favicon.png",
+	},
 };
 const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
+	subsets: ["latin"],
+	variable: "--font-inter",
 });
 
 const calSans = LocalFont({
-  src: "../public/fonts/CalSans-SemiBold.ttf",
-  variable: "--font-calsans",
+	src: "../public/fonts/CalSans-SemiBold.ttf",
+	variable: "--font-calsans",
 });
 
 export default function RootLayout({
-  children,
+	children,
 }: {
-  children: React.ReactNode;
+	children: React.ReactNode;
 }) {
-  return (
-    <html lang="en" className={[inter.variable, calSans.variable].join(" ")}>
-      <head>
-        <Analytics />
-      </head>
-      <body
-        className={`bg-black ${process.env.NODE_ENV === "development" ? "debug-screens" : undefined
-          }`}
-      >
-        {children}
-      </body>
-    </html>
-  );
+	return (
+		<html lang="en" className={[inter.variable, calSans.variable].join(" ")}>
+			<body
+				className={`bg-black ${
+					process.env.NODE_ENV === "development" ? "debug-screens" : undefined
+				}`}
+			>
+				{children}
+				<Analytics />
+			</body>
+		</html>
+	);
 }
