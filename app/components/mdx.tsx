@@ -2,7 +2,11 @@
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useMDXComponent } from "next-contentlayer/hooks";
+import { MDXRemote } from "next-mdx-remote/rsc";
+import remarkGfm from "remark-gfm";
+import rehypePrettyCode from "rehype-pretty-code";
+import rehypeSlug from "rehype-slug";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
 function clsx(...args: any) {
 	return args.filter(Boolean).join(" ");
@@ -154,7 +158,7 @@ const components = {
 	code: ({ className, ...props }) => (
 		<code
 			className={clsx(
-				"relative rounded border bg-zinc-300 bg-opacity-25 py-[0.2rem] px-[0.3rem] font-mono text-sm text-zinc-600",
+				"relative rounded border bg-zinc-300/25 py-[0.2rem] px-[0.3rem] font-mono text-sm text-zinc-600",
 				className,
 			)}
 			{...props}
@@ -164,15 +168,39 @@ const components = {
 };
 
 interface MdxProps {
-	code: string;
+	source: string;
 }
 
-export function Mdx({ code }: MdxProps) {
-	const Component = useMDXComponent(code);
-
+export function Mdx({ source }: MdxProps) {
 	return (
 		<div className="mdx">
-			<Component components={components} />
+			<MDXRemote
+				source={source}
+				components={components}
+				options={{
+					mdxOptions: {
+						remarkPlugins: [remarkGfm],
+						rehypePlugins: [
+							rehypeSlug,
+							[
+								rehypePrettyCode,
+								{
+									theme: "github-dark",
+								},
+							],
+							[
+								rehypeAutolinkHeadings,
+								{
+									properties: {
+										className: ["subheading-anchor"],
+										ariaLabel: "Link to section",
+									},
+								},
+							],
+						],
+					},
+				}}
+			/>
 		</div>
 	);
 }

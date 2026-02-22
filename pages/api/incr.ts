@@ -1,7 +1,12 @@
 import { Redis } from "@upstash/redis";
 import { NextRequest, NextResponse } from "next/server";
 
-const redis = Redis.fromEnv();
+function getRedis() {
+  if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN) {
+    return null;
+  }
+  return Redis.fromEnv();
+}
 export const config = {
   runtime: "edge",
 };
@@ -14,6 +19,11 @@ export default async function incr(req: NextRequest): Promise<NextResponse> {
     return new NextResponse("must be json", { status: 400 });
   }
 
+  const redis = getRedis();
+  if (!redis) {
+    return new NextResponse(null, { status: 202 });
+  }
+
   const body = await req.json();
   let slug: string | undefined = undefined;
   if ("slug" in body) {
@@ -22,7 +32,7 @@ export default async function incr(req: NextRequest): Promise<NextResponse> {
   if (!slug) {
     return new NextResponse("Slug not found", { status: 400 });
   }
-  const ip = req.ip;
+  const ip = req.headers.get("x-forwarded-for");
   if (ip) {
     // Hash the IP in order to not store it directly in your db.
     const buf = await crypto.subtle.digest(
@@ -39,7 +49,7 @@ export default async function incr(req: NextRequest): Promise<NextResponse> {
       ex: 24 * 60 * 60,
     });
     if (!isNew) {
-      new NextResponse(null, { status: 202 });
+      return new NextResponse(null, { status: 202 });
     }
   }
   await redis.incr(["pageviews", "projects", slug].join(":"));
