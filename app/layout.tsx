@@ -7,22 +7,22 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
 	title: {
-		default: "friezer.eu",
-		template: "%s | friezer.eu",
+		default: "Portfolio - Friezer",
+		template: "%s | Portfolio - Friezer",
 	},
 	description: "A young boy passionate by computers science.",
 	openGraph: {
-		title: "friezer.eu",
+		title: "Portfolio - Friezer",
 		description: "A young boy passionate by computers science.",
 		url: "https://friezer.eu",
-		siteName: "friezer.eu",
-		images: [
-			{
-				url: "https://friezer.eu/og.png",
-				width: 1920,
-				height: 1080,
-			},
-		],
+		siteName: "Portfolio - Friezer",
+		//images: [
+		//	{
+		//		url: "https://friezer.eu/og.png",
+		//		width: 1920,
+		//		height: 1080,
+		//	},
+		//],
 		locale: "en-US",
 		type: "website",
 	},
@@ -38,12 +38,12 @@ export const metadata: Metadata = {
 		},
 	},
 	twitter: {
-		title: "Friezer",
+		title: "Portfolio - Friezer",
 		card: "summary_large_image",
 	},
-	icons: {
-		shortcut: "/favicon.png",
-	},
+	//icons: {
+	//	shortcut: "/favicon.png",
+	//},
 };
 const inter = Inter({
 	subsets: ["latin"],
@@ -63,9 +63,8 @@ export default function RootLayout({
 	return (
 		<html lang="en" className={[inter.variable, calSans.variable].join(" ")}>
 			<body
-				className={`bg-black ${
-					process.env.NODE_ENV === "development" ? "debug-screens" : undefined
-				}`}
+				className={`bg-black ${process.env.NODE_ENV === "development" ? "debug-screens" : undefined
+					}`}
 			>
 				{children}
 				<Analytics />
