@@ -31,7 +31,7 @@ export default async function ProjectsPage() {
 				acc[allProjects[i].slug] = v ?? 0;
 				return acc;
 			}, {} as Record<string, number>);
-		} catch {}
+		} catch { }
 	}
 
 	const published = allProjects
@@ -42,10 +42,11 @@ export default async function ProjectsPage() {
 				new Date(a.date ?? Number.POSITIVE_INFINITY).getTime(),
 		);
 
-	const featured = published[0];
-	const top2 = published[1];
-	const top3 = published[2];
-	const sorted = published.slice(3);
+	const featured = allProjects.find((p) => p.slug === "etherlinx") ?? published[0];
+	const remaining = published.filter((p) => p.slug !== featured.slug);
+	const top2 = remaining[0];
+	const top3 = remaining[1];
+	const sorted = remaining.slice(2);
 
 	return (
 		<div className="relative pb-16">
@@ -56,8 +57,7 @@ export default async function ProjectsPage() {
 						Projects
 					</h2>
 					<p className="mt-4 text-zinc-400">
-						Some of my projects are from scholar projects and some are on my
-						free time.
+						Here is a preview of some of my projects (active or not), which I loved to make.
 					</p>
 				</div>
 				<div className="w-full h-px bg-zinc-800" />
@@ -68,13 +68,19 @@ export default async function ProjectsPage() {
 							<article className="relative w-full h-full p-4 md:p-8">
 								<div className="flex items-center justify-between gap-2">
 									<div className="text-xs text-zinc-100">
-										{featured.date ? (
-											<time dateTime={new Date(featured.date).toISOString()}>
-												{Intl.DateTimeFormat(undefined, {
-													dateStyle: "medium",
-												}).format(new Date(featured.date))}
-											</time>
-										) : (
+										{featured.date ? (() => {
+											const parsed = new Date(featured.date);
+											const isValidDate = !isNaN(parsed.getTime()) && featured.date.includes("-");
+											return isValidDate ? (
+												<time dateTime={parsed.toISOString()}>
+													{Intl.DateTimeFormat(undefined, {
+														dateStyle: "medium",
+													}).format(parsed)}
+												</time>
+											) : (
+												<span>{featured.date}</span>
+											);
+										})() : (
 											<span>SOON</span>
 										)}
 									</div>

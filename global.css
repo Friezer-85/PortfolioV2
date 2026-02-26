@@ -2,27 +2,27 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  --font-sans: "var(--font-inter)", ui-sans-serif, system-ui, sans-serif,
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --font-display: "var(--font-calsans)";
+  --font-display: var(--font-calsans);
 
   --animate-fade-in: fade-in 3s ease-in-out forwards;
   --animate-title: title 3s ease-out forwards;
   --animate-fade-left: fade-left 3s ease-in-out forwards;
   --animate-fade-right: fade-right 3s ease-in-out forwards;
 
-  --background-image-gradient-radial: radial-gradient(
-    50% 50% at 50% 50%,
-    var(--tw-gradient-stops)
-  );
+  --background-image-gradient-radial: radial-gradient(50% 50% at 50% 50%,
+      var(--tw-gradient-stops));
 
   @keyframes fade-in {
     0% {
       opacity: 0%;
     }
+
     75% {
       opacity: 0%;
     }
+
     100% {
       opacity: 100%;
     }
@@ -33,10 +33,12 @@
       transform: translateX(100%);
       opacity: 0%;
     }
+
     30% {
       transform: translateX(0%);
       opacity: 100%;
     }
+
     100% {
       opacity: 0%;
     }
@@ -47,10 +49,12 @@
       transform: translateX(-100%);
       opacity: 0%;
     }
+
     30% {
       transform: translateX(0%);
       opacity: 100%;
     }
+
     100% {
       opacity: 0%;
     }
@@ -62,13 +66,16 @@
       letter-spacing: 0.25em;
       opacity: 0;
     }
+
     25% {
       line-height: 0%;
       opacity: 0%;
     }
+
     80% {
       opacity: 100%;
     }
+
     100% {
       line-height: 100%;
       opacity: 100%;
